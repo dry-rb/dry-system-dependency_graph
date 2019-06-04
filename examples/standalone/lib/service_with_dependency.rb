@@ -3,5 +3,5 @@
 require 'import'
 
 class ServiceWithDependency
-  include Import['user_repo', 'empty_service']
+  include Import['user_repo', rename_dependency: 'empty_service']
 end

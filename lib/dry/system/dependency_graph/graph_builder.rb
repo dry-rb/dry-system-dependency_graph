@@ -25,9 +25,9 @@ module Dry
 
         def calculate_edges(events, nodes)
           events[:resolved_dependency].flat_map do |event|
-            event[:dependency_map].map do |_alias, key|
+            event[:dependency_map].map do |label, key|
               inject_class = nodes.find { |node| node.last[:label] == key }.first
-              [event[:target_class].name, inject_class]
+              [event[:target_class].name, inject_class, label: label]
             end
           end
         end
