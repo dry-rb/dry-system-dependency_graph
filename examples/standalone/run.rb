@@ -4,17 +4,13 @@ require 'bundler/setup'
 require_relative 'system/container'
 require 'dry/events'
 require 'dry/monitor/notifications'
+require 'dry/system/dependency_graph'
 
-App[:notifications].subscribe(:resolved_dependency) do |event|
-  puts "Event #{event.id}, payload: #{event.to_h}"
-end
-
-App[:notifications].subscribe(:registered_dependency) do |event|
-  puts "Event #{event.id}, payload: #{event.to_h}"
-end
+App.register(:dependency_graph, Dry::System::DependencyGraph.new(App[:notifications]))
 
 App.finalize!
 p App.keys
+pp App[:dependency_graph].events
 
 App['service_with_dependency']
 user_repo = App['user_repo']
