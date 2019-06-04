@@ -14,16 +14,19 @@ module Dry
           @events[:registered_dependency] ||= []
 
           @notifications.subscribe(:resolved_dependency) do |event|
-            @events[:resolved_dependency] << "Event #{event.id}, payload: #{event.to_h}"
+            @events[:resolved_dependency] << event.to_h
           end
 
           @notifications.subscribe(:registered_dependency) do |event|
-            @events[:registered_dependency] << "Event #{event.id}, payload: #{event.to_h}"
+            @events[:registered_dependency] << event.to_h
           end
         end
 
         def events
           @events
+        end
+
+        def build_graph!
         end
       end
     end
