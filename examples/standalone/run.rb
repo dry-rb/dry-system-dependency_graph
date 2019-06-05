@@ -12,8 +12,9 @@ App.finalize!
 p App.keys
 
 App[:dependency_graph].graph.output( png: "dependency_graph.png" )
+# puts App[:dependency_graph].graph.output( canon: String )
 
-App['service_with_dependency']
-user_repo = App['user_repo']
+App['services.service_with_dependency']
+user_repo = App['repositories.user_repo']
 
 puts user_repo.db.inspect

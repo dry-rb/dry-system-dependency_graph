@@ -2,5 +2,7 @@
 
 require 'import'
 
-class EmptyService
+module Services
+  class EmptyService
+  end
 end
