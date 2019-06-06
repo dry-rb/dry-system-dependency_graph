@@ -14,6 +14,12 @@ module Dry
           register_subscribers
         end
 
+        def graph
+          @dependency_graph ||= graph_builder.call(@events)
+        end
+
+      private
+
         def register_subscribers
           @events[:resolved_dependency] ||= []
           @events[:registered_dependency] ||= []
@@ -25,14 +31,6 @@ module Dry
           @notifications.subscribe(:registered_dependency) do |event|
             @events[:registered_dependency] << event.to_h
           end
-        end
-
-        def events
-          @events
-        end
-        
-        def graph
-          @dependency_graph ||= graph_builder.call(@events)
         end
       end
     end
