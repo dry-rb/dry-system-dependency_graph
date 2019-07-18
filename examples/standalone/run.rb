@@ -8,6 +8,11 @@ require 'dry/system/dependency_graph'
 
 App.register(:dependency_graph, Dry::System::DependencyGraph.new(App[:notifications]))
 
+ns = Dry::Container::Namespace.new('persistance') do
+  register('users') { Array.new }
+end
+App.import(ns)
+
 App.finalize!
 p App.keys
 
