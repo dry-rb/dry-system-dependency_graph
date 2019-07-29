@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+gem 'dry-events'
+gem 'dry-monitor'
+gem 'dry-system', path: '../../../dry-system'
+gem 'dry-system-dependency_graph', path: '../../'
+gem 'sinatra'
+gem 'sequel'
+gem 'sqlite3'
