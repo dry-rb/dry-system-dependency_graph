@@ -16,4 +16,11 @@ App.import(ns)
 
 App.finalize!
 
-run WebApp.run!
+use Rack::ContentType, "text/html"
+use Rack::ContentLength
+
+require 'dry/system/dependency_graph/middleware'
+use Rack::ContentLength
+use Dry::System::DependencyGraph::Middleware, container: App
+
+run WebApp.new
