@@ -7,7 +7,7 @@ require 'dry/monitor/notifications'
 require 'dry/system/dependency_graph'
 require_relative './app'
 
-App.register(:dependency_graph, Dry::System::DependencyGraph.new(App[:notifications]))
+App.register(:dependency_graph, Dry::System::DependencyGraph.new(App))
 
 ns = Dry::Container::Namespace.new('persistance') do
   register('users') { Array.new }

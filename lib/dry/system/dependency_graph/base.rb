@@ -6,10 +6,11 @@ module Dry
       class Base
         attr_reader :graph_builder
 
-        def initialize(notifications, graph_builder: Dry::System::DependencyGraph::GraphBuilder.new)
+        def initialize(container, graph_builder: Dry::System::DependencyGraph::GraphBuilder.new)
           @events = {}
-          @notifications = notifications
+          @notifications = container[:notifications]
           @graph_builder = graph_builder
+          @dependencies_calls = {}
 
           register_subscribers
         end
