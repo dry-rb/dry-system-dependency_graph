@@ -18,6 +18,15 @@ module Dry
 
         def graph
           @dependency_graph ||= graph_builder.call(@events)
+
+          @dependency_graph.each_graph do |scope_name, g|
+            g.each_node do |name, node|
+              label = node[:label].to_s.gsub( "\"", "" )
+              node[:tooltip] = "Calls count: #{dependencies_calls[label]}"
+            end
+          end
+
+          @dependency_graph
         end
 
         def enable_realtime_calls!
