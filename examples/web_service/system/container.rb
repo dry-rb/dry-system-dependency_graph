@@ -6,6 +6,7 @@ require 'dry/system/container'
 
 class App < Dry::System::Container
   use :dependency_graph
+  use :monitoring
 
   configure do |config|
     config.ignored_dependencies = %i[not_registered]

@@ -14,7 +14,9 @@ ns = Dry::Container::Namespace.new('persistance') do
 end
 App.import(ns)
 
-App.finalize!
+App.finalize!(freeze: false)
+App[:dependency_graph].enable_realtime_calls!
+App.freeze
 
 use Rack::ContentType, "text/html"
 use Rack::ContentLength

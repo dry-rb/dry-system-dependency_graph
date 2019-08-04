@@ -6,7 +6,7 @@ module Dry
       class Middleware
 
         class TemplateBuilder
-          def call(xdot)
+          def call(xdot, dependencies_calls)
             template = <<~TEMPLATE
               <html>
                 <head>
@@ -18,6 +18,8 @@ module Dry
                 <body>
                   <input type="hidden" id="test" value='<%== xdot =%>' style="display:none"/>
                   <div id="graph" style="text-align: center;"></div>
+
+                  <div id="calls" style="text-align: center;"><%== dependencies_calls =%></div>
 
                   <script>
                     window.onload = function() {
@@ -48,7 +50,7 @@ module Dry
 
           if dependency_graph_path?(req)
             response = [
-              TemplateBuilder.new.call(App[:dependency_graph].graph.output(xdot: String))
+              TemplateBuilder.new.call(App[:dependency_graph].graph.output(xdot: String), App[:dependency_graph].dependencies_calls)
             ]
           end
 
