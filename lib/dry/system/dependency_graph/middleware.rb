@@ -53,11 +53,11 @@ module Dry
           if dependency_graph_path?(req)
             graph = App[:dependency_graph].graph
 
-            puts 'HERE'
-
-            graph.each_graph do |scope_name, g|
-              g.each_node { |name, node| puts "Node '#{scope_name}.#{name}', #{node.output}" }
-            end
+            # puts 'HERE'
+            #
+            # graph.each_graph do |scope_name, g|
+            #   g.each_node { |name, node| puts "Node '#{scope_name}.#{name}', #{node.output}" }
+            # end
 
             response = [
               TemplateBuilder.new.call(graph.output(xdot: String), App[:dependency_graph].dependencies_calls)

@@ -22,6 +22,8 @@ module Dry
           @dependency_graph.each_graph do |scope_name, g|
             g.each_node do |name, node|
               label = node[:label].to_s.gsub( "\"", "" )
+              node[:style] = 'filled'
+              node[:fillcolor] = get_node_color(dependencies_calls[label])
               node[:tooltip] = "Calls count: #{dependencies_calls[label]}"
             end
           end
@@ -53,6 +55,17 @@ module Dry
 
         def keys_for_monitoring
           @container.keys - [:dependency_graph, 'dependency_graph', :notifications, 'notifications']
+        end
+
+        def get_node_color(calls_count)
+          case calls_count
+          when nil then 'white'
+          when 0 then '/bugn8/1'
+          when 1..3 then '/bugn8/2'
+          when 4..7 then '/bugn8/3'
+          else
+            '/bugn8/4'
+          end
         end
       end
     end
