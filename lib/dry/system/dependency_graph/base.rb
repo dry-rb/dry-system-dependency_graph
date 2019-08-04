@@ -12,6 +12,8 @@ module Dry
           @graph_builder = graph_builder
           @dependencies_calls = {}
 
+          container.register(:dependency_graph, self)
+
           register_subscribers
         end
 
