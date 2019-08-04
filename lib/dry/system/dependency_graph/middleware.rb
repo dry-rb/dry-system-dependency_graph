@@ -19,7 +19,9 @@ module Dry
                   <input type="hidden" id="test" value='<%== xdot =%>' style="display:none"/>
                   <div id="graph" style="text-align: center;"></div>
 
-                  <div id="calls" style="text-align: center;"><%== dependencies_calls =%></div>
+                  <div id="calls" style="text-align: center;">
+                    <%== dependencies_calls =%>
+                  </div>
 
                   <script>
                     window.onload = function() {
@@ -52,9 +54,10 @@ module Dry
             response = [
               TemplateBuilder.new.call(App[:dependency_graph].graph.output(xdot: String), App[:dependency_graph].dependencies_calls)
             ]
+
+            headers['Content-Length'] = response.first.to_s.size.to_s
           end
 
-          headers['Content-Length'] = response.first.size.to_s
           [status, headers, response]
         end
 
