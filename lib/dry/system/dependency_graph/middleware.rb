@@ -17,21 +17,15 @@ module Dry
         def call(env)
           req = Rack::Request.new(env)
           status, headers, response = @app.call(env)
-          headers = Rack::Utils::HeaderHash.new(headers)
 
           if dependency_graph_path?(req)
             graph = App[:dependency_graph].graph
-
-            # puts 'HERE'
-            #
-            # graph.each_graph do |scope_name, g|
-            #   g.each_node { |name, node| puts "Node '#{scope_name}.#{name}', #{node.output}" }
-            # end
 
             response = [
               TemplateBuilder.new.call(graph.output(xdot: String), App[:dependency_graph].dependencies_calls)
             ]
 
+            headers = Rack::Utils::HeaderHash.new(headers)
             headers['Content-Length'] = response.first.to_s.size.to_s
           end
 
