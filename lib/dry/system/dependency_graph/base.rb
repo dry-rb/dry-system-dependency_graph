@@ -25,6 +25,8 @@ module Dry
               node[:style] = 'filled'
               node[:fillcolor] = get_node_color(dependencies_calls[label])
               node[:tooltip] = "Calls count: #{dependencies_calls[label]}"
+              # TODO: setup specific poligon
+              # https://www.graphviz.org/doc/info/shapes.html
             end
           end
 
@@ -57,6 +59,8 @@ module Dry
           @container.keys - [:dependency_graph, 'dependency_graph', :notifications, 'notifications']
         end
 
+        # all possible color schemas for graphviz:
+        # https://www.graphviz.org/doc/info/colors.html#brewer
         def get_node_color(calls_count)
           case calls_count
           when nil then 'white'
