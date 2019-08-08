@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/dry-rb/dry-system-dependency_graph.svg?branch=master)](https://travis-ci.com/dry-rb/dry-system-dependency_graph)
+
 # Dry::System::DependencyGraph
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/dry/system/dependency_graph`. To experiment with that code, run `bin/console` for an interactive prompt.
