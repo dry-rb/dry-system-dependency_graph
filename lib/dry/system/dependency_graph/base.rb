@@ -1,10 +1,11 @@
 require_relative './graph_builder'
+require_relative './dependency_info'
 
 module Dry
   module System
     module DependencyGraph
       class Base
-        attr_reader :graph_builder, :dependencies_calls
+        attr_reader :graph_builder, :dependencies_calls, :container
 
         def initialize(container, graph_builder: Dry::System::DependencyGraph::GraphBuilder.new)
           @events = {}
@@ -36,8 +37,12 @@ module Dry
         def enable_realtime_calls!
           keys_for_monitoring.each do |key|
             dependencies_calls[key] = 0 
-            @container.monitor(key) { |_event| dependencies_calls[key] += 1  }
+            container.monitor(key) { |_event| dependencies_calls[key] += 1  }
           end
+        end
+
+        def dependencies_information
+          keys_for_monitoring.map { |key| DependencyInfo.new.call(container[key]) }
         end
 
       private
@@ -56,7 +61,7 @@ module Dry
         end
 
         def keys_for_monitoring
-          @container.keys - [:dependency_graph, 'dependency_graph', :notifications, 'notifications']
+          container.keys - [:dependency_graph, 'dependency_graph', :notifications, 'notifications']
         end
 
         # all possible color schemas for graphviz:
