@@ -41,8 +41,8 @@ module Dry
           end
         end
 
-        def dependencies_information
-          keys_for_monitoring.map { |key| DependencyInfo.new.call(container[key]) }
+        def dependency_information(key)
+          DependencyInfo.new.call(container[key])
         end
 
       private

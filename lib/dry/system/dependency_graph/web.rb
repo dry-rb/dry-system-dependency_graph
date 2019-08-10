@@ -1,7 +1,6 @@
 require 'erb'
-require 'yaml'
+require 'json'
 require 'sinatra/base'
-require_relative './middleware/template_builder'
 
 module Dry
   module System
@@ -18,6 +17,13 @@ module Dry
           @dependencies_calls = dependency_graph.dependencies_calls
 
           erb :graph
+        end
+
+        get '/info/:key' do
+          content_type :json
+
+          dependency_graph = settings.container[:dependency_graph]
+          dependency_graph.dependency_information(params['key']).to_json
         end
       end
     end

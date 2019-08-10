@@ -4,6 +4,7 @@
     <script src="//d3js.org/d3.v4.min.js"></script>
     <script src="http://viz-js.com/bower_components/viz.js/viz-lite.js"></script>
     <script src="https://github.com/magjac/d3-graphviz/releases/download/v0.1.2/d3-graphviz.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   </head>
   <body>
     <input type="hidden" id="test" value='<%== @xdot =%>' style="display:none"/>
@@ -13,10 +14,22 @@
       <%== @dependencies_calls =%>
     </div>
 
+    <code id="dependency_info" style="text-align: center;"></code>
+
     <script>
-window.onload = function() {
-  d3.select("#graph").graphviz().renderDot(document.getElementById('test').value)
-}
+      window.onload = function() {
+        d3.select("#graph").graphviz().renderDot(document.getElementById('test').value)
+
+        d3.selectAll('.node').selectAll("g").on("click", function () {
+          var dependency = $(this).find('text').text();
+          var url = $(location).attr('href') + "/info/" + dependency;
+
+          $.get(url, function(data) {
+            console.log(data);
+            $("#dependency_info").html(data.source_code.replace(/\n/g, "<br />"));
+          });
+        })
+      }
     </script>
   </body>
 </html>
