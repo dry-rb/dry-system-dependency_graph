@@ -18,11 +18,10 @@ App.finalize!(freeze: false)
 App[:dependency_graph].enable_realtime_calls!
 App.freeze
 
-use Rack::ContentType, "text/html"
-use Rack::ContentLength
+require 'dry/system/dependency_graph/web'
+Dry::System::DependencyGraph::Web.set :container, App
 
-require 'dry/system/dependency_graph/middleware'
-use Rack::ContentLength
-use Dry::System::DependencyGraph::Middleware, container: App
-
-run WebApp.new
+run Rack::URLMap.new(
+  '/' => WebApp.new,
+  '/dependency_graph' => Dry::System::DependencyGraph::Web.new(container: App)
+)
