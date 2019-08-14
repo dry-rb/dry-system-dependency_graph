@@ -69,11 +69,13 @@ module Dry
         def get_node_color(calls_count)
           case calls_count
           when nil then 'white'
-          when 0 then '/bugn8/1'
-          when 1..3 then '/bugn8/2'
-          when 4..7 then '/bugn8/3'
+          when 0 then 'white'
+          when 1 then '/bugn8/1'
+          when 2..3 then '/bugn8/2'
+          when 4..6 then '/bugn8/3'
+          when 4..6 then '/bugn8/4'
           else
-            '/bugn8/4'
+            '/bugn8/5'
           end
         end
       end
