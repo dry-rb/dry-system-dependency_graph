@@ -64,6 +64,8 @@ module Dry
           container.keys - [:dependency_graph, 'dependency_graph', :notifications, 'notifications']
         end
 
+        # TODO: move it to separate class and use DI for better configuration
+
         # all possible color schemas for graphviz:
         # https://www.graphviz.org/doc/info/colors.html#brewer
         def get_node_color(calls_count)
