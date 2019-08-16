@@ -13,9 +13,7 @@ ns = Dry::Container::Namespace.new('persistance') do
 end
 App.import(ns)
 
-App.finalize!(freeze: false)
-App[:dependency_graph].enable_realtime_calls!
-App.freeze
+App.finalize!
 
 App[:dependency_graph].graph.output( png: "dependency_graph.png" )
 # puts App[:dependency_graph].graph.output( xdot: String )
