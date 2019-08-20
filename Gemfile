@@ -7,6 +7,4 @@ group :tools do
   gem 'dry-events'
   gem 'dry-monitor'
   gem 'dry-system', github: 'dry-rb/dry-system'
-  gem 'sequel'
-  gem 'sqlite3'
 end

@@ -72,5 +72,7 @@ RSpec.describe 'Full app' do
     let(:xdot) { system[:dependency_graph].graph.output( xdot: String ) }
 
     it { expect(xdot).to match('persistance.users') }
+    it { expect(xdot).to match('db.conn') }
+    it { expect(xdot).to match('client.conn') }
   end
 end
