@@ -2,9 +2,48 @@
 
 # Dry::System::DependencyGraph
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/dry/system/dependency_graph`. To experiment with that code, run `bin/console` for an interactive prompt.
+```ruby
+# in container
+require 'dry/system/container'
 
-TODO: Delete this and the text above, and describe your gem
+class App < Dry::System::Container
+  use :dependency_graph
+
+  configure do |config|
+    config.ignored_dependencies = %i[not_registered]
+  end
+end
+```
+
+```ruby
+# in booting
+require 'dry/system/dependency_graph'
+
+Dry::System::DependencyGraph.register!(App)
+```
+
+Enable realtime checks by this code:
+```
+# in booting
+require 'dry/system/dependency_graph'
+
+Dry::System::DependencyGraph.register!(App)
+
+App.finalize!(freeze: false)
+App[:dependency_graph].enable_realtime_calls!
+App.freeze
+```
+
+Rack based interface
+```ruby
+require 'dry/system/dependency_graph/web'
+Dry::System::DependencyGraph::Web.set :container, App
+
+run Rack::URLMap.new(
+  '/' => WebApp.new,
+  '/dependency_graph' => Dry::System::DependencyGraph::Web.new(container: App)
+)
+```
 
 ## Installation
 
