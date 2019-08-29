@@ -23,7 +23,7 @@ Dry::System::DependencyGraph.register!(App)
 ```
 
 Enable realtime checks by this code:
-```
+```ruby
 # in booting
 require 'dry/system/dependency_graph'
 
