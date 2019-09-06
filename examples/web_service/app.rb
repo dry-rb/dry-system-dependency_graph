@@ -12,4 +12,8 @@ class WebApp < Sinatra::Base
   get "/create_user" do
     App['services.create_user'].call
   end
+
+  get "/something" do
+    App['something'].call
+  end
 end
