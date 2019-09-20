@@ -14,6 +14,12 @@ ns = Dry::Container::Namespace.new('persistance') do
 end
 App.import(ns)
 
+# TODO: doesn't work well
+#
+# OtherApp.register(:dependency, Object.new)
+# App.import(other: OtherApp)
+# App['other.dependency']
+
 App.finalize!(freeze: false)
 App[:dependency_graph].enable_realtime_calls!
 App.freeze

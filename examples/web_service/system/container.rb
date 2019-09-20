@@ -15,3 +15,9 @@ class App < Dry::System::Container
 
   load_paths!('lib')
 end
+
+class OtherApp < Dry::System::Container
+  configure do |config|
+    config.name = :main
+  end
+end
