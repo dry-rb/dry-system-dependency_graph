@@ -5,10 +5,15 @@
     <script src="http://viz-js.com/bower_components/viz.js/viz-lite.js"></script>
     <script src="https://github.com/magjac/d3-graphviz/releases/download/v0.1.2/d3-graphviz.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+      svg {
+        height: 100%;
+      }
+    </style>
   </head>
   <body>
     <input type="hidden" id="test" value='<%== @xdot =%>' style="display:none"/>
-    <div id="graph" style="text-align: center;"></div>
+    <div id="graph" style="text-align: center; height: 80%;"></div>
 
     <code id="dependency_info" style="text-align: center;"></code>
 
