@@ -45,6 +45,16 @@ module Dry
           DependencyInfo.new.call(container[key])
         end
 
+        def merge_container!(container)
+          return unless container[:dependency_graph]
+
+          # TODO: make merging strategy for graphs
+          graph
+          # if a.first == 'dependency_graph'
+          #   _container['dependency_graph'].call.graph.add_graph(other._container['dependency_graph'].call.graph)
+          # end
+        end
+
       private
 
         def register_subscribers
