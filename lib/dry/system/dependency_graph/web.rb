@@ -23,6 +23,13 @@ module Dry
           dependency_graph = settings.container[:dependency_graph]
           dependency_graph.dependency_information(params['key']).to_json
         end
+
+        get '/dependencies_calls' do
+          content_type :json
+
+          dependency_graph = settings.container[:dependency_graph]
+          dependency_graph.dependencies_calls.to_json
+        end
       end
     end
   end
