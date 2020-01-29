@@ -1,36 +1,81 @@
 <html>
   <head>
     <title>Dependency Graph</title>
-    <script src="//d3js.org/d3.v4.min.js"></script>
-    <script src="http://viz-js.com/bower_components/viz.js/viz-lite.js"></script>
-    <script src="https://github.com/magjac/d3-graphviz/releases/download/v0.1.2/d3-graphviz.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://unpkg.com/cytoscape@3.1.0/dist/cytoscape.min.js"></script>
+    <script src="https://unpkg.com/cytoscape-cose-bilkent@4.0.0/cytoscape-cose-bilkent.js"></script>
     <style>
-      svg {
+      body {
+        font-family: helvetica;
+        font-size: 14px;
+      }
+      #graph { /*change your css*/
+        width: 100%;
         height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 999;
+      }
+      h1 {
+        opacity: 0.5;
+        font-size: 1em;
       }
     </style>
   </head>
   <body>
-    <input type="hidden" id="test" value='<%== @xdot =%>' style="display:none"/>
-    <div id="graph" style="text-align: center; height: 80%;"></div>
-
-    <code id="dependency_info" style="text-align: center;"></code>
+    <div id="graph" style="height: 100%;"></div>
 
     <script>
-      window.onload = function() {
-        d3.select("#graph").graphviz().renderDot(document.getElementById('test').value)
+      document.addEventListener('DOMContentLoaded', function() {
+        var cy = window.cy = cytoscape({
+          container: document.getElementById('graph'),
+          elements: JSON.parse(<%= @json_graph =%>),
 
-        d3.selectAll('.node').selectAll("g").on("click", function () {
-          var dependency = $(this).find('text').text();
-          var url = $(location).attr('href') + "/info/" + dependency;
+          layout: {
+            name: "cose-bilkent",
+            animate: false,
+            randomize: false,
+            fit: true,
+            quality: 'default',
+            padding: 10,
+            nodeRepulsion: 500,
+            idealEdgeLength: 50,
+            nestingFactor: 0.1,
+            animate: false,
+          },
 
-          $.get(url, function(data) {
-            console.log(data);
-            $("#dependency_info").html(data.source_code.replace(/\n/g, "<br />"));
-          });
-        })
-      }
+          // so we can see the ids
+          style: [
+            {
+              selector: 'node[weight > 90]', // Node group
+              style: {
+                'label': 'data(id)',
+                'font-size': '20px',
+                'text-margin-y': '-30px',
+              }
+            },
+            {
+              selector: 'node', // Dependency node
+              style: {
+                'label': 'data(label)',
+                'font-size': '18px',
+              }
+            },
+            {
+              selector: 'edge',
+              style: {
+                'label': 'data(label)',
+                'color': '#999',
+                'font-size': '12px',
+                'width': '2px',
+                'line-color': '#ddd'
+              }
+            },
+            ]
+        });
+      });
     </script>
   </body>
 </html>

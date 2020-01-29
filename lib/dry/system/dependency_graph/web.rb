@@ -12,7 +12,7 @@ module Dry
 
         get '/' do
           dependency_graph = settings.container[:dependency_graph]
-          @xdot = dependency_graph.graph.output(xdot: String)
+          @json_graph = dependency_graph.graph.to_json.inspect
 
           erb :graph
         end

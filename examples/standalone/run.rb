@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'json'
 require 'bundler/setup'
 require_relative 'system/container'
 require 'dry/events'
@@ -15,10 +16,13 @@ App.import(ns)
 
 App.finalize!
 
-App[:dependency_graph].graph.output( png: "dependency_graph.png" )
+# App[:dependency_graph].graph.output( png: "dependency_graph.png" )
+
+pp App[:dependency_graph].json_graph.to_json
+
 # puts App[:dependency_graph].graph.output( xdot: String )
 
-App['services.service_with_dependency']
-user_repo = App['repositories.user_repo']
-
-puts user_repo.db.inspect
+# App['services.service_with_dependency']
+# user_repo = App['repositories.user_repo']
+#
+# puts user_repo.db.inspect

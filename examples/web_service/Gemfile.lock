@@ -16,7 +16,7 @@ PATH
   specs:
     dry-system-dependency_graph (0.1.0)
       erubis
-      ruby-graphviz
+      sinatra
 
 GEM
   remote: https://rubygems.org/
@@ -67,7 +67,6 @@ GEM
     rack (2.0.7)
     rack-protection (2.0.5)
       rack
-    ruby-graphviz (1.2.4)
     sequel (5.20.0)
     sinatra (2.0.5)
       mustermann (~> 1.0)
@@ -95,4 +94,4 @@ DEPENDENCIES
   thin
 
 BUNDLED WITH
-   2.0.1
+   2.0.2

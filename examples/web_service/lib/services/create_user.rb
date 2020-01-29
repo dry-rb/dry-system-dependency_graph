@@ -4,7 +4,7 @@ require 'import'
 
 module Services
   class CreateUser
-    include Import['persistance.users', 'repositories.user_repo', rename_dependency: 'services.empty_service']
+    include Import['persistence.users', 'repositories.user_repo', rename_dependency: 'services.empty_service']
 
     def call
     end

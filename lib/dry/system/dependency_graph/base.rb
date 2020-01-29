@@ -7,7 +7,10 @@ module Dry
       class Base
         attr_reader :graph_builder, :dependencies_calls, :container
 
-        def initialize(container, graph_builder: Dry::System::DependencyGraph::GraphBuilder.new)
+        def initialize(
+          container,
+          graph_builder: Dry::System::DependencyGraph::GraphBuilder.new
+        )
           @events = {}
           @container = container
           @notifications = container[:notifications]
@@ -19,19 +22,6 @@ module Dry
 
         def graph
           @dependency_graph ||= graph_builder.call(@events)
-
-          @dependency_graph.each_graph do |scope_name, g|
-            g.each_node do |name, node|
-              label = node[:label].to_s.gsub( "\"", "" )
-              node[:style] = 'filled'
-              node[:fillcolor] = get_node_color(dependencies_calls[label])
-              node[:tooltip] = "Calls count: #{dependencies_calls[label]}"
-              # TODO: setup specific poligon
-              # https://www.graphviz.org/doc/info/shapes.html
-            end
-          end
-
-          @dependency_graph
         end
 
         def enable_realtime_calls!
@@ -75,21 +65,6 @@ module Dry
         end
 
         # TODO: move it to separate class and use DI for better configuration
-
-        # all possible color schemas for graphviz:
-        # https://www.graphviz.org/doc/info/colors.html#brewer
-        def get_node_color(calls_count)
-          case calls_count
-          when nil then 'white'
-          when 0 then 'white'
-          when 1 then '/bugn8/1'
-          when 2..3 then '/bugn8/2'
-          when 4..6 then '/bugn8/3'
-          when 4..6 then '/bugn8/4'
-          else
-            '/bugn8/5'
-          end
-        end
       end
     end
   end
