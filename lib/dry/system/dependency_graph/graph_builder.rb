@@ -5,27 +5,21 @@ module Dry
         def call(events)
           nodes = calculate_nodes(events)
           edges = calculate_edges(events, nodes)
+          groups = calculate_groups(nodes)
 
-          { nodes: nodes, edges: edges }
+          { nodes: nodes, edges: edges, groups: groups }
         end
 
       private
 
         def calculate_nodes(events)
-          events[:registered_dependency].flat_map do |event|
+          events[:registered_dependency].map do |event|
             *node_parts, _node_name = event[:key].to_s.split('.')
 
             if node_parts.any?
-              parent_keys = node_parts.map.with_index { |_keys, i| node_parts[0..i].join('.') }
-
-              nodes = parent_keys.map.with_index do |name, i|
-                parent = i.zero? ? nil : parent_keys[i - 1]
-                { data: { id: name, label: name, parent: parent, weight: 100 } }
-              end
-
-              nodes + [{ data: { id: event[:class].name, label: event[:key].to_s, parent: node_parts.join('.'), weight: 50 } }]
+              { id: event[:class].name, label: event[:key].to_s, groupId: node_parts.join('.'), weight: 50 }
             else
-              [{ data: { id: event[:class].name, label: event[:key].to_s, weight: 50 } }]
+              { id: event[:class].name, label: event[:key].to_s }
             end
           end.uniq
         end
@@ -40,10 +34,27 @@ module Dry
         def calculate_edges(events, nodes)
           events[:resolved_dependency].flat_map do |event|
             event[:dependency_map].map do |label, key|
-              inject_class = nodes.find { |node| node[:data][:label] == key }
-              { data: { target: event[:target_class].name, source: inject_class[:data][:id], label: label } }
+              inject_class = nodes.find { |node| node[:label] == key }
+              { target: event[:target_class].name, source: inject_class[:id], label: label }
             end
           end
+        end
+
+        def calculate_groups(nodes)
+          nodes.map { |node| node[:groupId] }.uniq.compact.flat_map do |group_name|
+            group_parts = group_name.split('.')
+            group_keys = group_parts.map.with_index { |_keys, i| group_parts[0..i].join('.') }
+
+            group_keys.map.with_index do |name, i|
+              title = { text: name, fontSize: 24, offsetY: 30, }
+
+              if i.zero?
+                { id: name, title: title  }
+              else
+                { id: name, title: title, parentId: group_keys[i - 1] }
+              end
+            end
+          end.sort { |node1, node2| node2[:id].size <=> node1[:id].size }
         end
       end
     end

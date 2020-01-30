@@ -8,6 +8,7 @@ module Dry
       class Web < Sinatra::Base
         set :root, File.expand_path(File.dirname(__FILE__) + "/../../../../web")
         set :views, Proc.new { "#{root}/views" }
+        set :public_folder, Proc.new { "#{root}/static" }
         set :container, Proc.new { fail }
 
         get '/' do
