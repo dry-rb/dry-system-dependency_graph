@@ -38,6 +38,23 @@
         top: 1;
         left: 1;
       }
+
+      .dependency-info {
+        position: absolute;
+        top: 1;
+        right: 1;
+        background-color: rgba(255, 255, 255, 0.9);
+        height: 100%;
+        box-shadow: rgb(174, 174, 174) 0px 0px 10px;
+        display: none;
+      }
+
+      code {
+        display: block;
+        white-space: pre-wrap;
+        overflow-y: scroll;
+        height: 80%;
+      }
     </style>
   </head>
   <body>
@@ -45,8 +62,20 @@
       <div id="graph" style="height: 100%;"></div>
     </div>
 
+    <div class="dependency-info">
+      <a class="dependency-info_close" href="#">Close</a>
+
+      <div class="dependency-info_container">
+      </div>
+    </div>
+
     <script>
       document.addEventListener('DOMContentLoaded', function() {
+        $(".dependency-info_close").click(function( event ) {
+          event.preventDefault();
+          $(".dependency-info").hide();
+        });
+
         buildGraph(JSON.parse(<%= @json_graph =%>))
       });
     </script>

@@ -90,6 +90,23 @@ function buildGraph(data) {
     },
   });
 
+  graph.on('node:click', (e) => {
+    var nodeModel = e.item.getModel();
+    var currentPagePath = window.location.pathname;
+
+    $.getJSON(currentPagePath + 'info/' + nodeModel.id, function(data) {
+      var $dependencyInfo = $(".dependency-info_container")
+
+      $dependencyInfo.empty();
+      $dependencyInfo.append("<p>Class: " + data.class + "</p>");
+      $dependencyInfo.append("<p>Source location: " + data.source_location + "</p>");
+      $dependencyInfo.append("<p>Source code:</p>");
+      $dependencyInfo.append("<code>" + data.source_code + "</code>");
+
+      $(".dependency-info").show();
+    });
+  });
+
   graph.data(data); // Load the data defined in Step 2
   graph.render(); // Render the graph
 }

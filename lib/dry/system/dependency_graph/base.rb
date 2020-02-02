@@ -31,8 +31,8 @@ module Dry
           end
         end
 
-        def dependency_information(key)
-          DependencyInfo.new.call(container[key])
+        def dependency_information(class_name)
+          DependencyInfo.new.call(class_name)
         end
 
         def merge_container!(container)

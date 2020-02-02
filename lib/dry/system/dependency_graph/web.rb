@@ -18,11 +18,11 @@ module Dry
           erb :graph
         end
 
-        get '/info/:key' do
+        get '/info/:class_name' do
           content_type :json
 
           dependency_graph = settings.container[:dependency_graph]
-          dependency_graph.dependency_information(params['key']).to_json
+          dependency_graph.dependency_information(params['class_name']).to_json
         end
 
         get '/dependencies_calls' do

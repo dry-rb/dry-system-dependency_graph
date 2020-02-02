@@ -36,12 +36,9 @@ module Dry
       CLASS_NAME_REGEXP = /<([\w:]+)+:\w+>/
 
       class DependencyInfo
-        def call(dependency)
-          dependency_class_name = dependency.to_s.match(CLASS_NAME_REGEXP)
-          return {} unless dependency_class_name
-
-          dependency_class_name = dependency_class_name[1]
-          dependency_class = Kernel.const_get(dependency_class_name)
+        def call(class_name)
+          dependency_class = Kernel.const_get(class_name)
+          # TODO: issue, does not work if class does not have any writed public methods
           source_location = ClassSourceLocation.new.call(dependency_class)
 
           {
@@ -49,6 +46,8 @@ module Dry
             source_location: source_location,
             source_code: source_location && File.read(source_location)
           }
+        rescue StandardError => _msg  
+          {}
         end
       end
     end
