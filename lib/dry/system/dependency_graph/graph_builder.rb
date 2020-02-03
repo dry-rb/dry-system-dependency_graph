@@ -6,10 +6,7 @@ module Dry
           nodes = calculate_nodes(events)
           edges = calculate_edges(events, nodes)
           groups = calculate_groups(nodes)
-
-          nodes_outside_container = (edges.map { |e| e[:target] } - nodes.map { |n| n[:id] }).map do |class_name|
-            { id: class_name, label: class_name, shape: 'ellipse' }
-          end.uniq
+          nodes_outside_container = calculate_dependencies_outside_container(edges, nodes)
 
           nodes = nodes + nodes_outside_container
 
@@ -62,6 +59,12 @@ module Dry
               end
             end
           end.sort { |node1, node2| node2[:id].size <=> node1[:id].size }
+        end
+
+        def calculate_dependencies_outside_container(edges, nodes)
+          (edges.map { |e| e[:target] } - nodes.map { |n| n[:id] }).map do |class_name|
+            { id: class_name, label: class_name, shape: 'ellipse' }
+          end.uniq
         end
       end
     end
