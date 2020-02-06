@@ -9,7 +9,7 @@ module Dry
       class << self
         # Initialize dependency graph library
         #
-        # @param notifications [Object] the dry system container notifications object
+        # @param container [Object] the dry system container notifications object
         #
         # @since 0.1.0
         #
@@ -17,7 +17,7 @@ module Dry
         #
         #   App.register(:dependency_graph, Dry::System::DependencyGraph.new(App))
         #   App.finalize!
-        #   App[:dependency_graph].events
+        #   App[:dependency_graph].graph
         def new(container)
           Base.new(container)
         end
@@ -25,7 +25,8 @@ module Dry
 
         # Initialize dependency graph library
         #
-        # @param notifications [Object] the dry system container notifications object
+        # @param container [Object] the dry system container object
+        # @param realtime_calls_adapter [Object] the adapter for collecting realtime calls metrics
         #
         # @since 0.1.0
         #
@@ -34,8 +35,23 @@ module Dry
         #   Dry::System::DependencyGraph.register!(App)
         #
         #   App.finalize!
-        #   App[:dependency_graph].events
-        def register!(container)
+        #   App[:dependency_graph].graph
+        #
+        # @example enable real time calls metrics
+        #
+        #   adapter = Dry::System::DependencyGraph::RealtimeAdapters::Redis.new(redis)
+        #   # or
+        #   adapter = Dry::System::DependencyGraph::RealtimeAdapters::Memory.new
+        #
+        #   Dry::System::DependencyGraph.register!(App, realtime_calls_adapter: adapter)
+        #
+        #   App.finalize!(freeze: false)
+        #   App[:dependency_graph].enable_realtime_calls!
+        #   App.freeze
+        #
+        #   # ...
+        #   App[:dependency_graph].dependencies_calls
+        def register!(container, realtime_calls_adapter: nil)
           instance = self.new(container)
           container.register(:dependency_graph, instance)
         end

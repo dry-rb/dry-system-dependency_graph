@@ -63,8 +63,6 @@ module Dry
         def keys_for_monitoring
           container.keys.delete_if { |k| k[/notification/] || k[/dependency_graph/] }
         end
-
-        # TODO: move it to separate class and use DI for better configuration
       end
     end
   end

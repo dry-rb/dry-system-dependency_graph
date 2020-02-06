@@ -8,6 +8,7 @@ require 'dry/system/container'
 
 class App < Dry::System::Container
   use :dependency_graph
+  use :monitoring
 
   configure do |config|
     config.ignored_dependencies = %i[not_registered]
@@ -19,6 +20,7 @@ end
 # in booting
 require 'dry/system/dependency_graph'
 
+# call it before register all dependencies
 Dry::System::DependencyGraph.register!(App)
 ```
 
