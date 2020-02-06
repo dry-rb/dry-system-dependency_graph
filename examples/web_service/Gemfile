@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 gem 'dry-events'
 gem 'dry-monitor'
+gem 'dry-configurable', github: 'dry-rb/dry-configurable'
 gem 'dry-system', path: '../../../dry-system'
 gem 'dry-system-dependency_graph', path: '../../'
 gem 'sinatra'
